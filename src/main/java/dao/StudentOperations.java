@@ -15,13 +15,14 @@ import bean.Subject;
 
 public class StudentOperations implements StudentDeclaration {
 
-	SessionFactory sf=null;
-	Session session =null;
+	SessionFactory sf = null;
+	Session session = null;
 	Transaction trxn = null;
 
 	public StudentOperations() {
-		sf=new Configuration().addAnnotatedClass(Student.class).addAnnotatedClass(Subject.class).buildSessionFactory();
-		session=sf.openSession();
+		sf = new Configuration().addAnnotatedClass(Student.class).addAnnotatedClass(Subject.class)
+				.buildSessionFactory();
+		session = sf.openSession();
 	}
 
 	@Override
@@ -124,8 +125,8 @@ public class StudentOperations implements StudentDeclaration {
 
 		Query<Student> query = session.createQuery("FROM Student WHERE username LIKE :uname", Student.class);
 		query.setParameter("uname", "%" + username + "%");
-		List<Student> list= query.list();
-		if(list!=null) {
+		List<Student> list = query.list();
+		if (list != null) {
 			return list;
 		}
 		return null;

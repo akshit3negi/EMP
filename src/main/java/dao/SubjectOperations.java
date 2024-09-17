@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -10,17 +9,16 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import bean.Student;
 import bean.Subject;
 
-public class SubjectOperations implements SubjectDeclaration{
-	SessionFactory sf=null;
-	Session session =null;
+public class SubjectOperations implements SubjectDeclaration {
+	SessionFactory sf = null;
+	Session session = null;
 	Transaction trxn = null;
 
 	public SubjectOperations() {
-		sf=new Configuration().addAnnotatedClass(Subject.class).buildSessionFactory();
-		session=sf.openSession();
+		sf = new Configuration().addAnnotatedClass(Subject.class).buildSessionFactory();
+		session = sf.openSession();
 	}
 
 	@Override
@@ -89,7 +87,8 @@ public class SubjectOperations implements SubjectDeclaration{
 	@Override
 	public List<Subject> selectAllSubject() {
 		List<Subject> list = null;
-		Query<Subject> query = session.createQuery("From Subject", Subject.class); // for HQL- class name and variable name required.
+		Query<Subject> query = session.createQuery("From Subject", Subject.class); // for HQL- class name and variable
+																					// name required.
 		list = query.list();
 
 		if (list.size() > 0) {
@@ -102,8 +101,8 @@ public class SubjectOperations implements SubjectDeclaration{
 	public List<Subject> searchByName(String username) {
 		Query<Subject> query = session.createQuery("FROM Subject WHERE sub_name LIKE :sub_name", Subject.class);
 		query.setParameter("sub_name", "%" + username + "%");
-		List<Subject> list= query.list();
-		if(list!=null) {
+		List<Subject> list = query.list();
+		if (list != null) {
 			return list;
 		}
 		return null;

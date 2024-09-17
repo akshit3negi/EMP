@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/SubjectController")
 public class SubjectController extends HttpServlet {
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String sub_name = request.getParameter("name");
@@ -28,8 +29,8 @@ public class SubjectController extends HttpServlet {
 				sub_fees, sub_offer);
 
 		SubjectDeclaration sd = new SubjectOperations();
-		int id=sd.insertSubject(sub);
-		if(id>0) {
+		int id = sd.insertSubject(sub);
+		if (id > 0) {
 			response.getWriter().println("Subject Inserted Successfully");
 		} else {
 			response.getWriter().println("Failed to Insert Subject");

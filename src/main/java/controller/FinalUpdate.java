@@ -17,7 +17,7 @@ public class FinalUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getParameter("id") != null) {
-
+			
 			String name = request.getParameter("name");
 			String username = request.getParameter("username");
 			String address = request.getParameter("address");
@@ -27,11 +27,15 @@ public class FinalUpdate extends HttpServlet {
 			String admission_date = request.getParameter("admission_date");
 			String course = request.getParameter("course");
 			Student st = new Student(name, username, password, address, contact, course, admission_date, fees);
-
+			
 			int id = Integer.parseInt(request.getParameter("id"));
+
 			StudentOperations so = new StudentOperations();
-			boolean update=so.update(id, st);
-			if(update) {
+			Student stu=so.selectStudent(id);
+			st.setSub_list(stu.getSub_list());
+			
+			boolean update = so.update(id, st);
+			if (update) {
 				response.sendRedirect("AdminPanel/showAllStudent.jsp");
 			} else {
 				response.getWriter().println("Failed to update");

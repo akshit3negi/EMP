@@ -1,5 +1,10 @@
 
-<%@page import="dao.StudentOperations" import="java.util.List"%>
+<%@page import="dao.StudentOperations" 
+import="java.util.List" 
+import="java.util.ArrayList"
+ import="bean.Student"
+import="java.util.Set"
+import="bean.Subject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -61,6 +66,7 @@ table {
 				<th>Address</th>
 				<th>Contact</th>
 				<th>Course</th>
+				<th>Subjects</th>
 				<th>Admission_Date</th>
 				<th>Fee</th>
 			</tr>
@@ -81,6 +87,15 @@ table {
 				<td><%=stu.getAddress()%></td>
 				<td><%=stu.getContact()%></td>
 				<td><%=stu.getCourse()%></td>
+				<td style='color:red;'><%
+				Set<Subject> s=stu.getSub_list();
+				if (s.size() == 0)
+					out.println("To be added");
+				else
+					for (Subject sub : s) {
+						out.println(sub.getSub_name());
+					}
+				%></td>
 				<td><%=stu.getAdmission_date()%></td>
 				<td><%=stu.getFees()%></td>
 				<td><a class="update"
@@ -113,10 +128,10 @@ table {
 				<th>Address</th>
 				<th>Contact</th>
 				<th>Course</th>
+				<th>Subjects</th>
 				<th>Admission_Date</th>
 				<th>Fee</th>
 			</tr>
-			<%@ page import="java.util.ArrayList" import="bean.Student"%>
 			<%
 			StudentOperations opr = new StudentOperations();
 			ArrayList<Student> list = opr.selectAllStudents();
@@ -132,6 +147,15 @@ table {
 				<td><%=stu.getAddress()%></td>
 				<td><%=stu.getContact()%></td>
 				<td><%=stu.getCourse()%></td>
+				<td style='color:red;'><%
+				Set<Subject> s=stu.getSub_list();
+				if (s.size() == 0)
+					out.println("To be added");
+				else
+					for (Subject sub : s) {
+						out.println(sub.getSub_name()+", ");
+					}
+				%></td>
 				<td><%=stu.getAdmission_date()%></td>
 				<td><%=stu.getFees()%></td>
 				<td><a class="update"

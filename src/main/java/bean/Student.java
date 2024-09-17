@@ -1,5 +1,6 @@
 package bean;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
 @Entity
-public class Student {
+public class Student implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int sid;
@@ -20,10 +21,12 @@ public class Student {
 	private String name, password, address, contact, course, admission_date;
 	@Column(unique = true, nullable = false)
 	private String username;
-	@ManyToMany(cascade=CascadeType.ALL)
-	private Set<Subject> sub_list=new HashSet<Subject>(10);
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Set<Subject> sub_list = new HashSet<>(10);
 
-	public Student() {}
+	public Student() {
+	}
+
 	public Student(String name, String username, String password, String address, String contact, String course,
 			String admission_date, int fees) {
 		this.name = name;
@@ -37,8 +40,9 @@ public class Student {
 	}
 
 	public void setSid(int sid) {
-		this.sid=sid;
+		this.sid = sid;
 	}
+
 	public int getSid() {
 		return sid;
 	}
@@ -104,11 +108,13 @@ public class Student {
 	}
 
 	public void setAdmission_date(String admission_date) {
-		this.admission_date = admission_date;	
+		this.admission_date = admission_date;
 	}
+
 	public Set<Subject> getSub_list() {
 		return sub_list;
 	}
+
 	public void setSub_list(Set<Subject> sub_list) {
 		this.sub_list = sub_list;
 	}

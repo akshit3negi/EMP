@@ -105,5 +105,4 @@ public class Subject {
 		this.sub_code = sub_code;
 	}
 
-
 }
