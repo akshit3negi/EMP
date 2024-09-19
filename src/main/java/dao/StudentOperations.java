@@ -48,6 +48,7 @@ public class StudentOperations implements StudentDeclaration {
 	public boolean update(int id, Student s) {
 		trxn = session.beginTransaction();
 		s.setSid(id);
+//		s=session.get(Student.class,id);
 		session.merge(s);
 		if (trxn != null) {
 			trxn.commit();
@@ -77,7 +78,7 @@ public class StudentOperations implements StudentDeclaration {
 		s.setUsername(""); // required as username is unique, can't be null.
 		session.remove(s);
 		/*
-		 * no error in line 67 (primary key assigned to new object), because Hibernate
+		 * no error in line 76 (primary key assigned to new object), because Hibernate
 		 * doesn’t check the database for existence during object creation. Instead, it
 		 * defers the actual database interaction until you perform certain operations
 		 * (like saving or removing the object). When you call session.remove(entity),

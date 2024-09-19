@@ -104,5 +104,4 @@ public class Subject {
 	public void setSub_code(String sub_code) {
 		this.sub_code = sub_code;
 	}
-
 }

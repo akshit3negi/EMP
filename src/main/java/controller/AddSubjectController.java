@@ -44,15 +44,13 @@ public class AddSubjectController extends HttpServlet {
 			
 			for(Object ob: set) {
 				String sname=ob.toString();
-				if(!sname.equals("addsub")) {
-					if(!sname.equals("id")){
+				if(!sname.equals("addsub") && !sname.equals("id")) {
 					int sub_id=Integer.parseInt(request.getParameter(sname));
 					stu=stuo.selectStudent(stu_id);
 					sub=subo.selectSubject(sub_id);
 					stu.getSub_list().add(sub);
 					}
 				}
-			}
 			
 			boolean return_id=stuo.update(stu_id, stu);
 			if(return_id) {

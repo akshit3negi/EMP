@@ -118,5 +118,5 @@ public class Student implements Serializable {
 	public void setSub_list(Set<Subject> sub_list) {
 		this.sub_list = sub_list;
 	}
-
+	
 }

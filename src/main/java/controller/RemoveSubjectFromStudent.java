@@ -27,7 +27,9 @@ public class RemoveSubjectFromStudent extends HttpServlet {
 		
 		int stu_id=Integer.parseInt(request.getParameter("id"));
 		Student stu=stuo.selectStudent(stu_id);
+		Set<Subject> sublist=stu.getSub_list();
 		Subject sub=null;
+		System.out.println(stu_id);
 		if(request.getParameter("removesub")!=null) {
 			Enumeration pNames = request.getParameterNames();
 			List list=Collections.list(pNames);
@@ -36,7 +38,13 @@ public class RemoveSubjectFromStudent extends HttpServlet {
 				if(!sname.equals("removesub") && !sname.equals("id")) {
 					int sub_id=Integer.parseInt(request.getParameter(sname));
 					sub=subo.selectSubject(sub_id);
-					stu.getSub_list().remove(sub);
+					Subject subname=null;
+					for(Subject subject:sublist) {
+						if(subject.getSub_id()==sub.getSub_id()) {
+							subname=subject;
+						}
+					}
+					stu.getSub_list().remove(subname);
 					}
 				}
 			
