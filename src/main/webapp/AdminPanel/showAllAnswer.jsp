@@ -1,7 +1,9 @@
-
-<%@page import="dao.QuestionOperations"
-		import="bean.Question"
-		import="java.util.ArrayList"%>
+<%@page import="bean.Answer"%>
+<%@page import="dao.AnswerOperations"%>
+<%@page import="bean.Question"%>
+<%@page import="dao.QuestionOperations"%>
+<%@page import="dao.OptionOperations" import="bean.Options"
+	import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,7 +16,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<title>Questions List</title>
+<title>Answers List</title>
 <style type="text/css">
 body {
 	background-color: gray;
@@ -26,7 +28,7 @@ table {
 </style>
 </head>
 <body>
-	<!------------------------ Navigation Bar -------------------------------->
+	<!------------------------ Navigation Bar ----------------------------->
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -46,36 +48,38 @@ table {
 			</form>
 		</div>
 	</nav>
+	<!------------------------ All Records -------------------------------->
 
-		<!------------------------ All Records -------------------------------->
-
-	<h2 style="text-align: center;">All Questions</h2>
+	<h2 style="text-align: center;">All Answers</h2>
 	<div class="container-fluid">
 		<table class="table">
 			<tr>
-				<th>Quest_ID</th>
-				<th>Subject</th>
+				<th>Answer ID</th>
+				<th>Subject Name</th>
 				<th>Question</th>
-				<th>Answer</th>
-				<th>Marks</th>
+				<th>Question Marks</th>
+				<th>Answer by Student</th>
+				<th>Correct Answer</th>
+				<th>Correct</th>
+				<th>Date</th>
 			</tr>
 			<%
-			QuestionOperations opr = new QuestionOperations();
-			ArrayList<Question> list = opr.selectAllQuestion();
-			for (Question q : list) {
+			AnswerOperations ansop = new AnswerOperations();
+			if (ansop.selectAllAnswer() != null) {
+				for (Answer ans : ansop.selectAllAnswer()) {
 			%>
 			<tr>
-				<td><%=q.getQuest_id()%></td>
-				<td><%=q.getSubject().getSub_name()%></td>
-				<td><%=q.getQuest_text()%></td>
-				<td><%=q.getAns_text()%></td>
-				<td><%=q.getQuest_marks()%></td>
-				<td><a class="update"
-					href="QuestionControl/UpdateQuestion.jsp?id=<%=q.getQuest_id()%>">Update</a></td>
-				<td><a class="delete"
-					href="../DeleteQuestion?id=<%=q.getQuest_id()%>">Delete</a></td>
+				<td><%=ans.getAns_id()%></td>
+				<td><%=ans.getSub().getSub_name()%></td>
+				<td><%=ans.getQuest().getQuest_text()%></td>
+				<td><%=ans.getQuest().getQuest_marks()%></td>
+				<td><%=ans.getAnstext()%></td>
+				<td><%=ans.getQuest().getAns_text()%></td>
+				<td><%=ans.iscorrect()%></td>
+				<td><%=ans.getAnsdate()%></td>
 			</tr>
- 			<%
+			<%
+			}
 			}
 			%>
 		</table>

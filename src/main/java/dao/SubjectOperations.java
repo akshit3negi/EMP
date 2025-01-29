@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import bean.Subject;
+import jakarta.persistence.EntityManager;
 
 public class SubjectOperations implements SubjectDeclaration {
 	SessionFactory sf = null;

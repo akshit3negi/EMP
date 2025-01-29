@@ -3,20 +3,23 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.Option;
+import bean.Options;
+import bean.Question;
+import bean.Subject;
 
 //register->controller->bean->
 public interface OptionDeclaration {
-	int insertStudent(Option o);
+	int insertOption(Options o);
 
-	boolean update(int id, Option o);
+	boolean update(int id, Options o);
 
 	boolean delete(int id);
 
-	Option selectQuestion(int id);
+	Options selectOption(int id);
 
-	ArrayList<Option> selectAllOption();
+	ArrayList<Options> selectAllOption();
 
-	List<Option> search(String username);
+	List<Options> search(String username);
 
+//	Options selectByQuestion(Question quest);
 }

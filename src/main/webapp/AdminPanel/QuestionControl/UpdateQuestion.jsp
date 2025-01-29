@@ -1,3 +1,8 @@
+<%@page import="bean.Options"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.OptionOperations"%>
+<%@page import="bean.Question"%>
+<%@page import="dao.QuestionOperations"%>
 <%@page import="bean.Subject"%>
 <%@page import="dao.SubjectOperations" import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -92,12 +97,21 @@ form {
 </head>
 
 <body>
+<%
+	if (request.getParameter("id") != null) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		QuestionOperations qo = new QuestionOperations();
+		Question quest = qo.selectQuestion(id);
+		if (quest != null) {
+	%>
+
 	<div class="AddQuestForm">
 		<h2>Add Question Form</h2>
-		<form class="Pform" action="../AddQuestionController" method="post">
+		<form class="Pform" action="/EMP/UpdateQuestionController" method="post">
+		<input type="hidden" class="form-control" value="<%=quest.getQuest_id()%>" name="id">
 			<div class="form-group">
 				<label for="subId">Select Subject:</label> <select name="subId" id="subId">
-					<option value="" disabled selected></option>
+					<option value="<%=quest.getSubject().getSub_id()%>" disabled selected><%=quest.getSubject().getSub_name()%></option>
 					<%
 					SubjectOperations subo = new SubjectOperations();
 					if (subo.selectAllSubject() != null) {
@@ -111,29 +125,39 @@ form {
 					%>
 				</select> <label for="question_marks">Question Marks:</label> <input
 					type="text" class="form-control" id="question_marks"
-					name="question_marks" placeholder="question_marks">
+					name="question_marks" placeholder="question_marks" value="<%=quest.getQuest_marks()%>">
 			</div>
 
 
 			<div class="form-group">
 				<label for="quest_text">Write Question:</label> <input type="text"
-					class="form-control" id="quest_text" placeholder="quest_text"
+					class="form-control" id="quest_text" placeholder="quest_text" value="<%=quest.getQuest_text() %>"
 					name="quest_text">
 			</div>
 			<div class="form-group" id="ans_option">
+			<%
+			OptionOperations oo=new OptionOperations();
+			ArrayList<Options> op=oo.selectAllOption();
+			Options option=null;
+			for(Options opt:op){
+				if(quest.getQuest_id()==opt.getQuestNum().getQuest_id())
+					option=opt;
+			}
+			%>
+			<input type="hidden" class="form-control" value="<%=option.getOption_id()%>" name="opid">
 				<label for="ans_option">Write Options:</label> <input type="text"
-					class="form-control" id="ans_option1" placeholder="Option 1"
+					class="form-control" id="ans_option1" value="<%=option.getOption1()%>" placeholder="Option 1"
 					name="ans_option1"> <input type="text"
-					class="form-control" id="ans_option2" placeholder="Option 2"
+					class="form-control" id="ans_option2" value="<%=option.getOption2()%>" placeholder="Option 2"
 					name="ans_option2"> <input type="text"
-					class="form-control" id="ans_option3" placeholder="Option 3"
+					class="form-control" id="ans_option3" value="<%=option.getOption3()%>" placeholder="Option 3"
 					name="ans_option3"> <input type="text"
-					class="form-control" id="ans_option4" placeholder="Option 4"
+					class="form-control" id="ans_option4" value="<%=option.getOption4()%>" placeholder="Option 4"
 					name="ans_option4">
 			</div>
 			<div class="form-group">
 				<label for="ans_text">Write Answer:</label> <input type="text"
-					class="form-control" id="ans_text" placeholder="ans_text"
+					class="form-control" id="ans_text" value="<%=quest.getAns_text()%>" placeholder="ans_text"
 					name="ans_text">
 			</div>
 
@@ -143,8 +167,12 @@ form {
 					Form</button>
 			</div>
 		</form>
-		<h2><%=request.getParameter("questAddSuccess") != null ? request.getParameter("questAddSuccess") : ""%></h2>
 	</div>
+	<%
+	}
+	} else
+	out.println("Id is null");
+	%>
 </body>
 
 </html>
