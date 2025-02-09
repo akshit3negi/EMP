@@ -29,9 +29,7 @@ public class AnswerOperations implements AnswerDeclaration {
 	}
 
 	@Override
-	public int insert(Answer ans) {
-//		session.clear();		
-		boolean flag = false;
+	public int insert(Answer ans) {		
 		Answer answ = null;
 		try {
 			trxn = session.beginTransaction();
@@ -39,20 +37,30 @@ public class AnswerOperations implements AnswerDeclaration {
 			  Subject sub = session.get(Subject.class, ans.getSub().getSub_id() );
 		        Student stu = session.get(Student.class, ans.getStu().getSid());
 		        Question quest = session.get(Question.class, ans.getQuest().getQuest_id());
-
+		      
+		        Answer existingAnswer = session.createQuery(
+		        	    "FROM Answer WHERE stu = :student AND quest = :question", Answer.class)
+		        	    .setParameter("student", stu)
+		        	    .setParameter("question", quest)
+		        	    .uniqueResult();
+		        
+		        if (existingAnswer != null) {
+		            // Prevent re-submission of answer
+		        	trxn.rollback();
+		        	return -1;
+		        }
+		        else {
 		        ans.setSub(sub);
 		        ans.setStu(stu);
-		        ans.setQuest(quest);
-			
-			answ = session.merge(ans);
-			flag = true;
+		        ans.setQuest(quest);			
+		        answ = session.merge(ans);
+		        }
+		        trxn.commit();
 		} catch (HibernateException e) {
+			trxn.rollback();
 			System.out.println(e);
 		}
-		if (flag)
-			trxn.commit();
-		else
-			trxn.rollback();
+	
 		return answ.getAns_id();
 	}
 		
@@ -135,6 +143,14 @@ public class AnswerOperations implements AnswerDeclaration {
 	public List<Answer> searchByStudent(Student stu) {
 		Query<Answer> query = session.createQuery("FROM Answer ans WHERE ans.stu = :student", Answer.class);
 		query.setParameter("student", stu);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Answer> selectByStuAndLang(Student stu, Subject sub) {
+		Query<Answer> query = session.createQuery("FROM Answer ans WHERE ans.stu = :student AND ans.sub= :subject", Answer.class);
+		query.setParameter("student", stu);
+		query.setParameter("subject", sub);
 		return query.getResultList();
 	}
 

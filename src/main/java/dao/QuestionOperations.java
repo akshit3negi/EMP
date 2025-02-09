@@ -10,14 +10,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import bean.Answer;
 import bean.Options;
 import bean.Question;
 import bean.Student;
 import bean.Subject;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 public class QuestionOperations implements QuestionDeclaration {
 	SessionFactory sf = null;
@@ -26,7 +23,7 @@ public class QuestionOperations implements QuestionDeclaration {
 
 	public QuestionOperations() {
 		sf = new Configuration().addAnnotatedClass(Question.class).addAnnotatedClass(Subject.class)
-				.addAnnotatedClass(Options.class).buildSessionFactory();
+				.addAnnotatedClass(Options.class).addAnnotatedClass(Answer.class).addAnnotatedClass(Student.class).buildSessionFactory();
 		session = sf.openSession();
 	}
 
@@ -114,4 +111,28 @@ public class QuestionOperations implements QuestionDeclaration {
 		query.setParameter("subject", sub);
 		return query.getResultList();
 	}
+
+	@Override
+	public List<Question> selectNotIn(Subject sub, Student stu) {
+//		Query<Question> query=session.createQuery("from Question where Quest_id not in(select quest.Quest_id from Answer where stu.sid="+stu.getSid()+" and sub.sub_id="+sub.getSub_id()+")", Question.class);
+
+		Query<Question> query = session.createQuery(
+			    "FROM Question WHERE subject.sub_id= :QsubId AND Quest_id NOT IN (SELECT quest.Quest_id FROM Answer WHERE stu.sid = :stuId AND sub.sub_id = :subId)", 
+			    Question.class);
+			query.setParameter("QsubId", sub.getSub_id());
+			query.setParameter("stuId", stu.getSid());
+			query.setParameter("subId", sub.getSub_id());
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Question> getTotalQuest(Subject sub) {
+		Query<Question> query=session.createQuery("from Question where subject.sub_id=:subId", Question.class);
+		query.setParameter("subId",sub.getSub_id());
+		return query.getResultList();
+		
+	}
+	
+	
+
 }

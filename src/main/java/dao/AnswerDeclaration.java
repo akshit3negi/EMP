@@ -2,9 +2,12 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 import bean.Answer;
 import bean.Question;
 import bean.Student;
+import bean.Subject;
 
 public interface AnswerDeclaration {
 	int insert(Answer ans);
@@ -20,4 +23,6 @@ public interface AnswerDeclaration {
 	List<Answer> searchByQuestion(Question quest);
 
 	List<Answer> searchByStudent(Student stu);
-	}
+
+	List<Answer> selectByStuAndLang(Student stu, Subject sub);
+}

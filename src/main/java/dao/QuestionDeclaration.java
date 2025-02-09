@@ -5,6 +5,7 @@ import java.util.List;
 
 import bean.Question;
 import bean.Subject;
+import bean.Student;
 
 //register->controller->bean->
 public interface QuestionDeclaration {
@@ -21,5 +22,8 @@ public interface QuestionDeclaration {
 	List<Question> search(String username);
 	
 	List<Question> selectBySubject(Subject sub);
+	
+	List<Question> selectNotIn(Subject sub, Student Stu);
 
+	List<Question> getTotalQuest(Subject sub);
 }
