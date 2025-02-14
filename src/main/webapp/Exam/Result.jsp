@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@page import="bean.StuExamInfo"%>
 <%@page import="dao.StuExamInfoOperation"%>
 <%@page import="dao.QuestionOperations"%>
@@ -11,8 +13,7 @@
 		import="bean.Answer"
 		import="bean.Question"
 		import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ include file="../common/Header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@ body {
     font-family: monospace;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding-top: 70px;
     font-size: 15px;
 }
 
@@ -40,6 +41,7 @@ body {
 
 h2, h3 {
     color: #333;
+    font-size:25px;
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -78,13 +80,14 @@ h2, h3 {
     border-radius: 5px;
     overflow: hidden;
     margin-top: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .progress-bar {
     background: #4caf50;
     height: 20px;
     text-align: center;
-    color: white;
+    color: #333;
     line-height: 20px;
     font-weight: bold;
 }
@@ -105,7 +108,7 @@ h2, h3 {
 
 strong,i {
 /*     font-weight: bold; */
-    color: #f2f3f4;
+    color: #333;
 }
 
 .table {
@@ -131,7 +134,7 @@ strong,i {
 
 .Pstamp {
    display: inline-block;
-   margin-left: 10px;
+   margin: 7px 10px;
    padding: 2px 15px;
    color: green;
    font-size: 1.5em;
@@ -146,8 +149,8 @@ strong,i {
     
     .Fstamp {
    display: inline-block;
-   margin-left: 10px;
    padding: 2px 15px;
+   margin: 7px 10px;
    color: red;
    font-size: 1.5em;
    font-weight: bold;
@@ -182,7 +185,7 @@ int qno=0;
 %>
 <div class="flex-container profile-name">
 <div class="flex-item text-center">
-<img src="#" height="100" width="100" alt="profile_pic"/>
+<img src="William.jpg" height="100" width="100" alt="profile_pic"/>
 <pre>
     <%=st.getName()%>
 </pre>
@@ -209,6 +212,7 @@ for(Question ql:list) {
 	TotalMarksSum+=ql.getQuest_marks();
 	}
 double percent=((marksScored * 100) / TotalMarksSum);
+// double percent=65.0;
 
 %>
             <p><i>Total Question:</i> <%=totalQuestions%></p>
@@ -216,6 +220,7 @@ double percent=((marksScored * 100) / TotalMarksSum);
             <p><i>Total Correct Answers:</i> <%= correctQuest %></p>
             <p><i>Total Marks:</i> <%= TotalMarksSum %></p>
             <p><i>Marks Obtained:</i> <%= marksScored %></p>
+            
             <p style="display: inline-block;"><i>Status:</i>
             <div class=<% 
             if(status.equals("Pass")){ %>"Pstamp" <%}
@@ -230,7 +235,7 @@ double percent=((marksScored * 100) / TotalMarksSum);
 <table class="table table-bordered table-striped" style="margin-top: 20px;">
     <thead>
         <tr>
-            <th>Question No.</th>
+            <th>S.No.</th>
             <th>Question</th>
             <th>Your Answer</th>
             <th>Right Answer</th>

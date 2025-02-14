@@ -19,4 +19,5 @@ public interface StudentDeclaration {
 
 	List<Student> searchByName(String username);
 
+	Student selectByUsername(String username);
 }

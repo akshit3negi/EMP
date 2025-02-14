@@ -133,9 +133,11 @@ public class StudentOperations implements StudentDeclaration {
 		return null;
 	}
 
-//	public static void main(String[] args) {
-//		StudentOperations  s=new StudentOperations();
-//		s.selectAllStudents();
-//	}
+	@Override
+	public Student selectByUsername(String username) {
+		Query<Student> query=session.createQuery("from Student where username = :uname",Student.class);
+		query.setParameter("uname",username);
+		return query.uniqueResult();
+	}
 
 }
